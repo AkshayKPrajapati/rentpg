@@ -108,26 +108,64 @@
     </div>
 
     <div class="row">
-      {% for m in member %}
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 shadow-sm border-0">
-
-            <div class="card-body text-center">
-              <h5 class="card-title">{{ m.member_name }}</h5>
-              <p class="card-text fw-semibold">{{ m.member_role }}</p>
-              <p class="card-text text-muted">{{ m.member_bio }}</p>
-              <div class="d-flex justify-content-center">
-                {% if m.linkedin_link %}
-                  <a href="{{ m.linkedin_link }}" class="btn btn-outline-primary me-2" target="_blank">LinkedIn</a>
-                {% endif %}
-                {% if m.github_link %}
-                  <a href="{{ m.github_link }}" class="btn btn-outline-secondary" target="_blank">GitHub</a>
-                {% endif %}
-              </div>
-            </div>
+      <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body text-center">
+          <h5 class="card-title">John Doe</h5>
+          <p class="card-text fw-semibold">Frontend Developer</p>
+          <p class="card-text text-muted">
+            Passionate about building responsive and user-friendly websites.
+          </p>
+          <div class="d-flex justify-content-center">
+            <a href="https://www.linkedin.com" class="btn btn-outline-primary me-2" target="_blank">
+              LinkedIn
+            </a>
+            <a href="https://github.com" class="btn btn-outline-secondary" target="_blank">
+              GitHub
+            </a>
           </div>
         </div>
-      {% endfor %}
+      </div>
+    </div>
+
+    <!-- Member 2 -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body text-center">
+          <h5 class="card-title">Jane Smith</h5>
+          <p class="card-text fw-semibold">Backend Developer</p>
+          <p class="card-text text-muted">
+            Expert in server-side logic, databases, and RESTful services.
+          </p>
+          <div class="d-flex justify-content-center">
+            <a href="https://www.linkedin.com" class="btn btn-outline-primary me-2" target="_blank">
+              LinkedIn
+            </a>
+            <a href="https://github.com" class="btn btn-outline-secondary" target="_blank">
+              GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Member 3 -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body text-center">
+          <h5 class="card-title">Alex Brown</h5>
+          <p class="card-text fw-semibold">UI/UX Designer</p>
+          <p class="card-text text-muted">
+            Designs clean, modern, and user-focused interfaces.
+          </p>
+          <div class="d-flex justify-content-center">
+            <a href="https://www.linkedin.com" class="btn btn-outline-primary" target="_blank">
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
   </div>
 </section>
