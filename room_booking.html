@@ -1,0 +1,109 @@
+
+<div class="container my-5">
+  <div class="row g-4">
+
+    <!-- Room Image & Basic Info -->
+    <div class="col-md-6">
+      <img src="{{ room.pg_image_url|default:'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=60' }}"
+           class="img-fluid rounded mb-4 shadow-sm" alt="{{ room.pg_name }}">
+    </div>
+
+    <!-- Room Details and Booking Form -->
+    <div class="col-md-6">
+      <h2 class="mb-3">{{ room.pg_name }}</h2>
+      <ul class="list-group list-group-flush mb-3">
+        <li class="list-group-item"><strong>Owner Name:</strong> {{ room.pg_owner.name }}</li>
+        <li class="list-group-item"><strong>Room Type:</strong> {{ room.room_type }}</li>
+        <li class="list-group-item"><strong>Location:</strong> {{ room.room_location }}</li>
+        <li class="list-group-item"><strong>Facilities:</strong> {{ room.facility }}</li>
+        <li class="list-group-item"><strong>Amenities:</strong> {{ room.amenity }}</li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <span><strong>Availability:</strong></span>
+          <span class="badge {% if room.is_available == 'Yes' %}bg-success{% else %}bg-danger{% endif %} fs-6">
+            {{ room.is_available }}
+          </span>
+        </li>
+        <li class="list-group-item">
+          <h4 class="text-success mb-0">₹{{ room.room_price }} <small class="text-muted">/ month</small></h4>
+        </li>
+      </ul>
+
+      <!-- Booking Form -->
+      {% if room.is_available == 'Yes' %}
+      <form id="bookingForm" class="mt-4">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="name" class="form-label">Your Full Name</label>
+          <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email Address</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="phone" class="form-label">Phone Number</label>
+          <input type="text" class="form-control" id="phone" name="phone" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="move_in_date" class="form-label">Preferred Move-in Date</label>
+          <input type="date" class="form-control" id="move_in_date" name="move_in_date" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg w-100 bookingRoom">
+          <i class="bi bi-calendar-check me-1"></i> Confirm Booking
+        </button>
+      </form>
+      {% else %}
+        <div class="alert alert-warning mt-3">
+          This room is currently not available for booking.
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const bookingForm = document.getElementById('bookingForm');
+
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append('room_id', '{{ room.room_id }}');
+            formData.append('location', '{{ room.room_location }}');
+            formData.append('pg_name', '{{ room.pg_name }}');
+            formData.append('pg_owner', '{{ room.pg_owner.name }}');
+            formData.append('room_type', '{{ room.room_type }}');
+            formData.append('room_price', '{{ room.room_price }}');
+            formData.append('name', document.getElementById('name').value);
+            formData.append('email', document.getElementById('email').value);
+            formData.append('phone', document.getElementById('phone').value);
+
+            fetch('http://127.0.0.1:8000/api/insert/booking/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Booking successful! Booking ID: ' + data.booking_id);
+                    window.location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An unexpected error occurred.');
+            });
+        });
+    }
+});
+</script>
+
